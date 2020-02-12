@@ -1,0 +1,47 @@
+kafka:
+
+  zookeeper:
+    replicaCount: 3
+
+  replicas: 1
+  image: "confluentinc/cp-kafka"
+  imageTag: "5.0.1"
+  imagePullPolicy: "IfNotPresent"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 1536Mi
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+  kafkaHeapOptions: "-Xmx1G -Xms1G"
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  terminationGracePeriodSeconds: 60
+
+  headless:
+    port: 9092
+
+  external:
+    enabled: true
+    type: NodePort
+    dns:
+      useExternal: true
+    servicePort: 19092
+    firstListenerPort: 31090
+    domain: cluster.local
+
+  persistence:
+    enabled: true
+    size: "1Gi"
+    mountPath: "/opt/kafka/data"
+
+  topics: 
+    - name: TEST
+      partitions: 8
+      replicationFactor: 1

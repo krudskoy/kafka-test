@@ -1,0 +1,5 @@
+topic: "TEST"
+
+kafka_cluster:
+  host: "kafka-cluster"
+  port: 9092

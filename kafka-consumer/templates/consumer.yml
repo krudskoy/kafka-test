@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kafka-consumer.fullname" . }}
+  labels:
+    app: {{ include "kafka-consumer.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "kafka-consumer.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kafka-consumer.name" . }}
+    spec:
+      containers:
+      - name: kafka
+        image: solsson/kafka:0.11.0.0
+        command:
+          - /opt/kafka/bin/kafka-console-consumer.sh
+          - --bootstrap-server
+          - {{ .Values.kafka_cluster.host }}:{{ .Values.kafka_cluster.port }}
+          - --topic
+          - {{ .Values.topic }}
+          - --from-beginning
+

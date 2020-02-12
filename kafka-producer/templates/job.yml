@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kafka-producer-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: kafka
+        image: solsson/kafka:0.11.0.0
+        command: ["/bin/bash"]
+        args: ["-c", "shuf -n {{ .Values.messages | default 5 }} quotes.txt | ./bin/kafka-console-producer.sh --broker-list {{ .Values.kafka_cluster.host }}:{{ .Values.kafka_cluster.port }} --topic {{ .Values.topic }}"]
+        volumeMounts:
+          - name: quotes
+            mountPath: /opt/kafka/quotes.txt
+            subPath: quotes.txt
+      volumes:
+        - name: quotes
+          configMap:
+            name: quotes
+            items:
+            - key: quotes.txt
+              path: quotes.txt
+
+      restartPolicy: Never
