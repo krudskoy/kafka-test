@@ -11,6 +11,8 @@ helm install --name=kafka-cluster kafka-cluster/
 helm install --name=kafka-consumer kafka-consumer/  
 helm install --name=kafka-producer kafka-producer/
 ```
+### Kafka-cluster
+Link: https://github.com/helm/charts/tree/master/incubator/kafka
 ### Kafka-consumer
 This deployment is used to comsume messages from the certain topic.
 
