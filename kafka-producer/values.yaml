@@ -1,5 +1,8 @@
 topic: "TEST"
-messages: 4
+
+message_number: 20
+message_length: 100
+
 kafka_cluster:
   host: "kafka-cluster"
   port: "9092"

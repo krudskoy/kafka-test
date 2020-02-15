@@ -9,17 +9,5 @@ spec:
       - name: kafka
         image: solsson/kafka:0.11.0.0
         command: ["/bin/bash"]
-        args: ["-c", "shuf -n {{ .Values.messages | default 5 }} quotes.txt | ./bin/kafka-console-producer.sh --broker-list {{ .Values.kafka_cluster.host }}:{{ .Values.kafka_cluster.port }} --topic {{ .Values.topic }}"]
-        volumeMounts:
-          - name: quotes
-            mountPath: /opt/kafka/quotes.txt
-            subPath: quotes.txt
-      volumes:
-        - name: quotes
-          configMap:
-            name: quotes
-            items:
-            - key: quotes.txt
-              path: quotes.txt
-
+        args: ["-c", " for i in {1..{{ .Values.message_number }}}; do shuf -zer -n{{ .Values.message_length }}  {A..Z} {a..z} {0..9} | ./bin/kafka-console-producer.sh --broker-list {{ .Values.kafka_cluster.host }}:{{ .Values.kafka_cluster.port }} --topic {{ .Values.topic }}; done"]
       restartPolicy: Never
