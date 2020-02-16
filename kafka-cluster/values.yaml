@@ -36,6 +36,12 @@ kafka:
     firstListenerPort: 31090
     domain: cluster.local
 
+  configurationOverrides:
+    "advertised.listeners": |-
+      EXTERNAL://kafka.cluster.local:$((31090 + ${KAFKA_BROKER_ID}))
+    "listener.security.protocol.map": |-
+      PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+
   persistence:
     enabled: true
     size: "1Gi"

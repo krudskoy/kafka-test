@@ -1,6 +1,6 @@
 topic: "TEST"
 
-message_number: 20
+message_number: 5
 message_length: 100
 
 kafka_cluster:
